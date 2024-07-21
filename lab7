@@ -1,0 +1,62 @@
+
+AREA FACTORIAL,CODE,READONLY
+ENTRY
+LDR R0,MEMORY;
+LDRB R1,[R0];
+MOV R2,#1;
+CMP R1,#01;
+BEQ STORE
+MOV R2,R1;
+UP ADD R1,R1,#-1
+CMP R1,#0;
+BEQ STORE;
+MUL R3,R2,R1;
+MOV R2,R3;
+B UP
+STORE LDR R0,RESULT
+STR R2,[R0]
+HERE B HERE
+MEMORY DCD 0X40000000
+RESULT DCD 0X40000010
+END
+
+ 
+
+
+#include <stdio.h>
+ 
+// Function to calculate factorial
+unsigned long long factorial(int n) {
+   if (n == 0 || n == 1) {
+       return 1;
+   }
+   unsigned long long fact = 1;
+   for (int i = 2; i <= n; i++) {
+       fact *= i;
+   }
+   return fact;
+}
+ 
+int main() {
+   int num;
+   unsigned long long result;
+ 
+   // Initialize UART or other communication interface here if needed
+ 
+   printf("Enter a number to find its factorial: ");
+   scanf("%d", &num);
+ 
+   if (num < 0) {
+       printf("Factorial is not defined for negative numbers.\n");
+   } else {
+       result = factorial(num);
+       printf("The factorial of %d is %llu\n", num, result);
+   }
+ 
+   // Main loop if required by the microcontroller environment
+   while (1) {
+       // Optionally, add code to keep the microcontroller running or waiting for other tasks
+   }
+ 
+   return 0;
+}
